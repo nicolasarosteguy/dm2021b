@@ -20,14 +20,14 @@ require("mlrMBO")
 
 
 #defino la carpeta donde trabajo
-setwd( "~/buckets/b1/crudo/"  )
+setwd( "~/Downloads/ECD_ITBA/MINERIA_DE_DATOS/"  )
 
 
 kexperimento  <- NA   #NA si se corre la primera vez, un valor concreto si es para continuar procesando
 
 kscript           <- "560_ranger_BO"
-karch_generacion  <- "./datasetsOri/paquete_premium_202011.csv"
-karch_aplicacion  <- "./datasetsOri/paquete_premium_202101.csv"
+karch_generacion  <- "~/Downloads/ECD_ITBA/MINERIA_DE_DATOS/datasetsOri/paquete_premium_202011.csv"
+karch_aplicacion  <- "~/Downloads/ECD_ITBA/MINERIA_DE_DATOS/datasetsOri/paquete_premium_202011.csv"
 kBO_iter    <-  150   #cantidad de iteraciones de la Optimizacion Bayesiana
 
 hs  <- makeParamSet(
@@ -209,7 +209,8 @@ if( file.exists(klog) )
 
 #cargo el datset donde voy a entrenar
 dataset  <- fread(karch_generacion, stringsAsFactors= TRUE)   #donde entreno
-
+dataset[ , mpasivos_margen := NULL ] 
+dataset[ , mactivos_margen := NULL ] 
 dataset[ , clase_binaria := as.factor(ifelse( clase_ternaria=="BAJA+2", "POS", "NEG" )) ]
 dataset[ , clase_ternaria := NULL ]  #elimino la clase_ternaria, ya no la necesito
 #imputo los nulos, ya que ranger no acepta nulos
